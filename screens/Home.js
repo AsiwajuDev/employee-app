@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
-import { Card } from "react-native-paper";
+import { Card, FAB } from "react-native-paper";
 
 const Home = () => {
   const data = [
@@ -8,6 +8,17 @@ const Home = () => {
     { id: 2, name: "Asiwaju", position: "Android Dev" },
     { id: 3, name: "Tokunbo", position: "ML Dev" },
     { id: 4, name: "Kazeem", position: "iOS Dev" },
+    { id: 5, name: "Kazeem", position: "iOS Dev" },
+    { id: 6, name: "Kazeem", position: "iOS Dev" },
+    { id: 7, name: "Kazeem", position: "iOS Dev" },
+    { id: 8, name: "Kazeem", position: "iOS Dev" },
+    { id: 9, name: "Kazeem", position: "iOS Dev" },
+    { id: 10, name: "Kazeem", position: "iOS Dev" },
+    { id: 11, name: "Kazeem", position: "iOS Dev" },
+    { id: 12, name: "Kazeem", position: "iOS Dev" },
+    { id: 13, name: "Kazeem", position: "iOS Dev" },
+    { id: 14, name: "Kazeem", position: "iOS Dev" },
+    { id: 15, name: "Kazeem", position: "iOS Dev" },
   ];
 
   const renderDataList = (item) => {
@@ -39,6 +50,14 @@ const Home = () => {
         }}
         keyExtractor={(item) => `${item.id}`}
       />
+
+      <FAB
+        style={styles.fab}
+        small={false}
+        icon="plus"
+        theme={{ colors: { accent: "#006aff" } }}
+        onPress={() => console.log("Pressed")}
+      />
     </View>
   );
 };
@@ -49,10 +68,16 @@ const styles = StyleSheet.create({
   },
   cardView: {
     flexDirection: "row",
-    padding: 6,
+    padding: 10,
   },
   text: {
     fontSize: 18,
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
 
