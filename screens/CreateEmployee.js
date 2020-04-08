@@ -4,12 +4,12 @@ import { TextInput, Button } from "react-native-paper";
 
 const CreateEmployee = () => {
   //Form Hooks to Set Initial and Update Values
-  const { name, setName } = useState("");
-  const { phone, setPhone } = useState("");
-  const { email, setEmail } = useState("");
-  const { salary, setSalary } = useState("");
-  const { picture, setPicture } = useState("");
-  const { modal, setModal } = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [salary, setSalary] = useState("");
+  const [picture, setPicture] = useState("");
+  const [modal, setModal] = useState(false);
 
   return (
     <View style={styles.root}>
@@ -25,6 +25,7 @@ const CreateEmployee = () => {
       <TextInput
         label="Email"
         style={styles.inputStyle}
+        keyboardType="email-address"
         value={email}
         theme={theme}
         mode="outlined"
