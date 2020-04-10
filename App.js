@@ -16,7 +16,7 @@ const myOption = {
   title: "Employee List",
   headerTintColor: "white",
   headerStyle: {
-    backgroundColor: "#006aff",
+    backgroundColor: "#25D366",
   },
 };
 

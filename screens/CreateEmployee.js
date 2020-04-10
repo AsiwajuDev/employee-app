@@ -117,7 +117,7 @@ const CreateEmployee = () => {
 
 const theme = {
   colors: {
-    primary: "#006aff",
+    primary: "#25D366",
   },
 };
 

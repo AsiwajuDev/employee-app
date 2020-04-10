@@ -9,14 +9,13 @@ const Home = ({ navigation }) => {
     return (
       <Card
         style={styles.myCard}
-        onPress={() => navigation.navigate("Profile")}
+        onPress={() => navigation.navigate("Profile", { item })}
       >
         <View style={styles.cardView}>
           <Image
             style={{ width: 60, height: 60, borderRadius: 30 }}
             source={{
-              uri:
-                "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=521&q=80",
+              uri: item.picture,
             }}
           />
           <View style={{ marginLeft: 10 }}>
@@ -45,7 +44,7 @@ const Home = ({ navigation }) => {
         style={styles.fab}
         small={false}
         icon="plus"
-        theme={{ colors: { accent: "#006aff" } }}
+        theme={{ colors: { accent: "#25D366" } }}
       />
     </View>
   );

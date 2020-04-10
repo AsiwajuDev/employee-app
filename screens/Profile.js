@@ -4,13 +4,23 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Title, Card, Button } from "react-native-paper";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
-const Profile = () => {
+const Profile = (props) => {
+  const {
+    id,
+    name,
+    picture,
+    phone,
+    salary,
+    email,
+    position,
+  } = props.route.params.item;
+
   //Open phone dialer
   const openDialer = () => {
     if (Platform.OS === "android") {
-      Linking.openURL("tel:08148072420");
+      Linking.openURL(`tel:${phone}`);
     } else {
-      Linking.openURL("telprompt:08148072420");
+      Linking.openURL(`telprompt:${phone}`);
     }
   };
 
@@ -24,20 +34,19 @@ const Profile = () => {
         <Image
           style={{ width: 150, height: 150, borderRadius: 75, marginTop: -80 }}
           source={{
-            uri:
-              "https://images.unsplash.com/photo-1569466896818-335b1bedfcce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80",
+            uri: picture,
           }}
         />
       </View>
       <View style={{ alignItems: "center", margin: 15 }}>
-        <Title style={{ fontSize: 30 }}>Lanre Asiwaju</Title>
-        <Text style={{ fontSize: 20, fontWeight: "300" }}>Web Developer</Text>
+        <Title style={{ fontSize: 30 }}>{name}</Title>
+        <Text style={{ fontSize: 20, fontWeight: "300" }}>{position}</Text>
       </View>
 
       <Card
         style={styles.myCard}
         onPress={() => {
-          Linking.openURL("mailto:someone@example.com");
+          Linking.openURL(`mailto:${email}`);
         }}
       >
         <View style={styles.cardContent}>
@@ -45,9 +54,9 @@ const Profile = () => {
             name="email"
             style={{ marginRight: 10 }}
             size={32}
-            color="#006aff"
+            color="#25D366"
           />
-          <Text style={styles.myText}>abc@abc.com</Text>
+          <Text style={styles.myText}>{email}</Text>
         </View>
       </Card>
 
@@ -57,9 +66,9 @@ const Profile = () => {
             name="phone"
             style={{ marginRight: 10 }}
             size={32}
-            color="#006aff"
+            color="#25D366"
           />
-          <Text style={styles.myText}>08148072420</Text>
+          <Text style={styles.myText}>{phone}</Text>
         </View>
       </Card>
 
@@ -69,9 +78,9 @@ const Profile = () => {
             name="attach-money"
             style={{ marginRight: 10 }}
             size={32}
-            color="#006aff"
+            color="#25D366"
           />
-          <Text style={styles.myText}>10,000</Text>
+          <Text style={styles.myText}>{salary}</Text>
         </View>
       </Card>
 
@@ -107,7 +116,7 @@ const Profile = () => {
 
 const theme = {
   colors: {
-    primary: "#006aff",
+    primary: "#25D366",
   },
 };
 
