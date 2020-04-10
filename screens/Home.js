@@ -2,25 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import { Card, FAB } from "react-native-paper";
 
-const Home = ({ navigation }) => {
-  const data = [
-    { id: 1, name: "Lanre", position: "Web Dev" },
-    { id: 2, name: "Asiwaju", position: "Android Dev" },
-    { id: 3, name: "Tokunbo", position: "ML Dev" },
-    { id: 4, name: "Kazeem", position: "iOS Dev" },
-    { id: 5, name: "Kazeem", position: "iOS Dev" },
-    { id: 6, name: "Kazeem", position: "iOS Dev" },
-    { id: 7, name: "Kazeem", position: "iOS Dev" },
-    { id: 8, name: "Kazeem", position: "iOS Dev" },
-    { id: 9, name: "Kazeem", position: "iOS Dev" },
-    { id: 10, name: "Kazeem", position: "iOS Dev" },
-    { id: 11, name: "Kazeem", position: "iOS Dev" },
-    { id: 12, name: "Kazeem", position: "iOS Dev" },
-    { id: 13, name: "Kazeem", position: "iOS Dev" },
-    { id: 14, name: "Kazeem", position: "iOS Dev" },
-    { id: 15, name: "Kazeem", position: "iOS Dev" },
-  ];
+import { data } from "../Data/dummyData";
 
+const Home = ({ navigation }) => {
   const renderDataList = (item) => {
     return (
       <Card
