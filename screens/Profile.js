@@ -27,7 +27,7 @@ const Profile = (props) => {
   return (
     <View style={styles.root}>
       <LinearGradient
-        colors={["#0033ff", "#6bc1ff"]}
+        colors={["#00E676", "#1EBEA5"]}
         style={{ height: "20%" }}
       />
       <View style={{ alignItems: "center" }}>
