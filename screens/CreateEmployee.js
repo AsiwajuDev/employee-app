@@ -76,7 +76,8 @@ const CreateEmployee = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setPicture(data.url);
+        setModal(false);
       });
   };
 
@@ -121,13 +122,13 @@ const CreateEmployee = () => {
       />
 
       <Button
-        icon="upload"
+        icon={picture == "" ? "upload" : "check"}
         mode="contained"
         style={styles.inputStyle}
         onPress={() => setModal(true)}
         theme={theme}
       >
-        Upload Image
+        {picture == "" ? "Upload Image" : "Upload Completed"}
       </Button>
 
       <Button
