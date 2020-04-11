@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Modal } from "react-native";
+import { StyleSheet, Text, View, Modal, Alert } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 
 const CreateEmployee = () => {
   //Form Hooks to Set Initial and Update Values
@@ -10,6 +12,73 @@ const CreateEmployee = () => {
   const [salary, setSalary] = useState("");
   const [picture, setPicture] = useState("");
   const [modal, setModal] = useState(false);
+
+  //Methid to Access Gallery
+  const pickFromGallery = async () => {
+    const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if (granted) {
+      let data = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+      });
+      if (!data.cancelled) {
+        let newFile = {
+          uri: data.uri,
+          type: `test/${data.uri.split(".")[1]}`,
+          name: `test.${data.uri.split(".")[1]}`,
+        };
+
+        handleUpload(newFile);
+      }
+    } else {
+      Alert.alert("You need to give up permission to work");
+    }
+  };
+
+  //Method to Access camera
+  const pickFromCamera = async () => {
+    const { granted } = await Permissions.askAsync(Permissions.CAMERA);
+
+    if (granted) {
+      let data = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+      });
+      if (!data.cancelled) {
+        let newFile = {
+          uri: data.uri,
+          type: `test/${data.uri.split(".")[1]}`,
+          name: `test.${data.uri.split(".")[1]}`,
+        };
+
+        handleUpload(newFile);
+      }
+    } else {
+      Alert.alert("You need to give up permission to work");
+    }
+  };
+
+  //Method to Upload Image to Cloudinary
+  const handleUpload = (image) => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "employeeApp");
+    data.append("cloud_name", "asiwajudev");
+
+    fetch("https://api.cloudinary.com/v1_1/asiwajudev/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
   return (
     <View style={styles.root}>
@@ -84,7 +153,7 @@ const CreateEmployee = () => {
             <Button
               icon="camera"
               mode="contained"
-              onPress={() => console.log("Camera Button Clicked")}
+              onPress={() => pickFromCamera()}
               theme={theme}
             >
               Camera
@@ -93,7 +162,7 @@ const CreateEmployee = () => {
             <Button
               icon="image-area"
               mode="contained"
-              onPress={() => console.log("Gallery Button Clicked")}
+              onPress={() => pickFromGallery()}
               theme={theme}
             >
               Gallery
