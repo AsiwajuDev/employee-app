@@ -1,16 +1,24 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Modal, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  Alert,
+  KeyboardAvoidingView,
+} from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
-const CreateEmployee = () => {
+const CreateEmployee = (navigation) => {
   //Form Hooks to Set Initial and Update Values
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [salary, setSalary] = useState("");
   const [picture, setPicture] = useState("");
+  const [position, setPosition] = useState("");
   const [modal, setModal] = useState(false);
 
   //Methid to Access Gallery
@@ -35,6 +43,7 @@ const CreateEmployee = () => {
       }
     } else {
       Alert.alert("You need to give up permission to work");
+      navigation.navigate("Home");
     }
   };
 
@@ -63,6 +72,28 @@ const CreateEmployee = () => {
     }
   };
 
+  //Method to Submit
+  const submitData = () => {
+    fetch("https://employee-app-server.herokuapp.com/api/employee/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        salary,
+        picture,
+        position,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Alert.alert(`${data.name} saved`);
+      });
+  };
+
   //Method to Upload Image to Cloudinary
   const handleUpload = (image) => {
     const data = new FormData();
@@ -83,104 +114,115 @@ const CreateEmployee = () => {
 
   return (
     <View style={styles.root}>
-      <TextInput
-        label="Name"
-        style={styles.inputStyle}
-        value={name}
-        theme={theme}
-        mode="outlined"
-        onChangeText={(text) => setName(text)}
-      />
+      <KeyboardAvoidingView>
+        <TextInput
+          label="Name"
+          style={styles.inputStyle}
+          value={name}
+          theme={theme}
+          mode="outlined"
+          onChangeText={(text) => setName(text)}
+        />
 
-      <TextInput
-        label="Email"
-        style={styles.inputStyle}
-        keyboardType="email-address"
-        value={email}
-        theme={theme}
-        mode="outlined"
-        onChangeText={(text) => setEmail(text)}
-      />
+        <TextInput
+          label="Email"
+          style={styles.inputStyle}
+          keyboardType="email-address"
+          value={email}
+          theme={theme}
+          mode="outlined"
+          onChangeText={(text) => setEmail(text)}
+        />
 
-      <TextInput
-        label="Phone"
-        style={styles.inputStyle}
-        value={phone}
-        theme={theme}
-        keyboardType="number-pad"
-        mode="outlined"
-        onChangeText={(text) => setPhone(text)}
-      />
+        <TextInput
+          label="Phone"
+          style={styles.inputStyle}
+          value={phone}
+          theme={theme}
+          keyboardType="number-pad"
+          mode="outlined"
+          onChangeText={(text) => setPhone(text)}
+        />
 
-      <TextInput
-        label="Salary"
-        style={styles.inputStyle}
-        value={salary}
-        theme={theme}
-        mode="outlined"
-        onChangeText={(text) => setSalary(text)}
-      />
+        <TextInput
+          label="Salary"
+          style={styles.inputStyle}
+          value={salary}
+          theme={theme}
+          mode="outlined"
+          onChangeText={(text) => setSalary(text)}
+        />
 
-      <Button
-        icon={picture == "" ? "upload" : "check"}
-        mode="contained"
-        style={styles.inputStyle}
-        onPress={() => setModal(true)}
-        theme={theme}
-      >
-        {picture == "" ? "Upload Image" : "Upload Completed"}
-      </Button>
+        <TextInput
+          label="Position"
+          style={styles.inputStyle}
+          value={position}
+          theme={theme}
+          mode="outlined"
+          onChangeText={(text) => setPosition(text)}
+        />
 
-      <Button
-        icon="content-save"
-        mode="contained"
-        style={styles.inputStyle}
-        onPress={() => console.log("Saved")}
-        theme={theme}
-      >
-        Save
-      </Button>
+        <Button
+          icon={picture == "" ? "upload" : "check"}
+          mode="contained"
+          style={styles.inputStyle}
+          onPress={() => setModal(true)}
+          theme={theme}
+        >
+          {picture == "" ? "Upload Image" : "Upload Completed"}
+        </Button>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modal}
-        onRequestClose={() => {
-          setModal(false);
-        }}
-      >
-        <View style={styles.modalView}>
-          <View style={styles.modalButtonView}>
+        <Button
+          icon="content-save"
+          mode="contained"
+          style={styles.inputStyle}
+          onPress={() => submitData()}
+          theme={theme}
+        >
+          Save
+        </Button>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modal}
+          onRequestClose={() => {
+            setModal(false);
+          }}
+        >
+          <View style={styles.modalView}>
+            <View style={styles.modalButtonView}>
+              <Button
+                icon="camera"
+                mode="contained"
+                onPress={() => pickFromCamera()}
+                theme={theme}
+              >
+                Camera
+              </Button>
+
+              <Button
+                icon="image-area"
+                mode="contained"
+                onPress={() => pickFromGallery()}
+                theme={theme}
+              >
+                Gallery
+              </Button>
+            </View>
+
             <Button
-              icon="camera"
-              mode="contained"
-              onPress={() => pickFromCamera()}
+              icon="close"
+              onPress={() => {
+                setModal(false);
+              }}
               theme={theme}
             >
-              Camera
-            </Button>
-
-            <Button
-              icon="image-area"
-              mode="contained"
-              onPress={() => pickFromGallery()}
-              theme={theme}
-            >
-              Gallery
+              Cancel
             </Button>
           </View>
-
-          <Button
-            icon="close"
-            onPress={() => {
-              setModal(false);
-            }}
-            theme={theme}
-          >
-            Cancel
-          </Button>
-        </View>
-      </Modal>
+        </Modal>
+      </KeyboardAvoidingView>
     </View>
   );
 };
