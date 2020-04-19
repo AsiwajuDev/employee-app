@@ -1,12 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Linking, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Linking,
+  Platform,
+  Alert,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Title, Card, Button } from "react-native-paper";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
 const Profile = (props) => {
   const {
-    id,
+    _id,
     name,
     picture,
     phone,
@@ -14,6 +22,27 @@ const Profile = (props) => {
     email,
     position,
   } = props.route.params.item;
+
+  //Fire Employee
+  const deleteEmployee = () => {
+    fetch("https://employee-app-server.herokuapp.com/api/employee/delete", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: _id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((deletedEmp) => {
+        Alert.alert(`${deletedEmp.name} deleted`);
+        props.navigation.navigate("Home");
+      })
+      .catch((err) => {
+        Alert.alert("Somethiing went wrong");
+      });
+  };
 
   //Open phone dialer
   const openDialer = () => {
@@ -105,7 +134,7 @@ const Profile = (props) => {
           icon="delete"
           theme={theme}
           mode="contained"
-          onPress={() => console.log("Pressed")}
+          onPress={() => deleteEmployee()}
         >
           Fire Employee
         </Button>

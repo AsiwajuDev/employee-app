@@ -1,10 +1,32 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, Image, FlatList, Alert } from "react-native";
 import { Card, FAB } from "react-native-paper";
 
-import { data } from "../Data/dummyData";
+// import { data } from "../Data/dummyData";
 
 const Home = ({ navigation }) => {
+  // React hooks to set & update Data coming from Server and also load and update load state
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  //Refresh on screen pull
+  const fetchData = () => {
+    fetch("https://employee-app-server.herokuapp.com/api/employee/all")
+      .then((res) => res.json())
+      .then((results) => {
+        setData(results);
+        setLoading(false);
+      })
+      .catch((err) => {
+        Alert.alert("Somethiing went wrong");
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  //Render data in Card List
   const renderDataList = (item) => {
     return (
       <Card
@@ -34,7 +56,9 @@ const Home = ({ navigation }) => {
         renderItem={({ item }) => {
           return renderDataList(item);
         }}
-        keyExtractor={(item) => `${item.id}`}
+        keyExtractor={(item) => `${item._id}`}
+        onRefresh={() => fetchData()}
+        refreshing={loading}
       />
 
       <FAB

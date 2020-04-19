@@ -1,6 +1,6 @@
 export const data = [
   {
-    id: 1,
+    _id: 1,
     name: "Lanre",
     email: "ola@gmail.com",
     salary: "100",
@@ -10,7 +10,7 @@ export const data = [
     position: "Web Dev",
   },
   {
-    id: 2,
+    _id: 2,
     name: "Asiwaju",
     email: "bayo@gmail.com",
     salary: "1000",
@@ -20,7 +20,7 @@ export const data = [
     position: "Android Dev",
   },
   {
-    id: 3,
+    _id: 3,
     name: "Tokunbo",
     email: "bato@gmail.com",
     salary: "10000",
@@ -30,7 +30,7 @@ export const data = [
     position: "ML Dev",
   },
   {
-    id: 4,
+    _id: 4,
     name: "Kazeem",
     email: "bayot@gmail.com",
     salary: "10000",
@@ -40,7 +40,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 5,
+    _id: 5,
     name: "Kazeem",
     email: "bayoyu@gmail.com",
     salary: "2000",
@@ -50,7 +50,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 6,
+    _id: 6,
     name: "Kazeem",
     email: "bayueo@gmail.com",
     salary: "5000",
@@ -60,7 +60,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 7,
+    _id: 7,
     name: "Kazeem",
     email: "tayo@gmail.com",
     salary: "10000",
@@ -70,7 +70,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 8,
+    _id: 8,
     name: "Kazeem",
     email: "tola@gmail.com",
     salary: "15000",
@@ -80,7 +80,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 9,
+    _id: 9,
     name: "Kazeem",
     email: "batoo@gmail.com",
     salary: "10080",
@@ -90,7 +90,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 10,
+    _id: 10,
     name: "Kazeem",
     email: "baoo@gmail.com",
     salary: "1800",
@@ -100,7 +100,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 11,
+    _id: 11,
     name: "Kazeem",
     email: "baloo@gmail.com",
     salary: "100080",
@@ -110,7 +110,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 12,
+    _id: 12,
     name: "Kazeem",
     email: "bao@gmail.com",
     salary: "10000",
@@ -120,7 +120,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 13,
+    _id: 13,
     name: "Kazeem",
     email: "plol@gmail.com",
     salary: "1050",
@@ -130,7 +130,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 14,
+    _id: 14,
     name: "Kazeem",
     email: "btoo@gmail.com",
     salary: "10000",
@@ -140,7 +140,7 @@ export const data = [
     position: "iOS Dev",
   },
   {
-    id: 15,
+    _id: 15,
     name: "Kazeem",
     email: "batoshhso@gmail.com",
     salary: "10000",

@@ -11,7 +11,7 @@ import { TextInput, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
-const CreateEmployee = (navigation) => {
+const CreateEmployee = ({ navigation }) => {
   //Form Hooks to Set Initial and Update Values
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -43,7 +43,6 @@ const CreateEmployee = (navigation) => {
       }
     } else {
       Alert.alert("You need to give up permission to work");
-      navigation.navigate("Home");
     }
   };
 
@@ -72,7 +71,7 @@ const CreateEmployee = (navigation) => {
     }
   };
 
-  //Method to Submit
+  //Method to Submit to Server
   const submitData = () => {
     fetch("https://employee-app-server.herokuapp.com/api/employee/create", {
       method: "POST",
@@ -91,6 +90,11 @@ const CreateEmployee = (navigation) => {
       .then((res) => res.json())
       .then((data) => {
         Alert.alert(`${data.name} saved`);
+        navigation.navigate("Home");
+        Alert.alert("Pull screen to reload");
+      })
+      .catch((err) => {
+        Alert.alert("Somethiing went wrong");
       });
   };
 
@@ -109,6 +113,9 @@ const CreateEmployee = (navigation) => {
       .then((data) => {
         setPicture(data.url);
         setModal(false);
+      })
+      .catch((err) => {
+        Alert.alert("Error uploading image");
       });
   };
 
@@ -149,6 +156,7 @@ const CreateEmployee = (navigation) => {
           style={styles.inputStyle}
           value={salary}
           theme={theme}
+          keyboardType="number-pad"
           mode="outlined"
           onChangeText={(text) => setSalary(text)}
         />
