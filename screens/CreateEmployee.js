@@ -11,15 +11,40 @@ import { TextInput, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
-const CreateEmployee = ({ navigation }) => {
+const CreateEmployee = ({ navigation, route }) => {
+  //Get details to be Edited
+  //Data is passed from route props in Profile page
+  const getEditDetails = (type) => {
+    if (route.params) {
+      switch (type) {
+        case "name":
+          return route.params.name;
+        case "phone":
+          return route.params.phone;
+        case "email":
+          return route.params.email;
+        case "salary":
+          return route.params.salary;
+        case "picture":
+          return route.params.picture;
+        case "position":
+          return route.params.position;
+      }
+    }
+    return "";
+  };
+
   //Form Hooks to Set Initial and Update Values
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [salary, setSalary] = useState("");
-  const [picture, setPicture] = useState("");
-  const [position, setPosition] = useState("");
+  const [name, setName] = useState(getEditDetails("name"));
+  const [phone, setPhone] = useState(getEditDetails("phone"));
+  const [email, setEmail] = useState(getEditDetails("email"));
+  const [salary, setSalary] = useState(getEditDetails("salary"));
+  const [picture, setPicture] = useState(getEditDetails("picture"));
+  const [position, setPosition] = useState(getEditDetails("position"));
   const [modal, setModal] = useState(false);
+
+  //Used to set Keyboard view if needed
+  const [enableShift, setEnableShift] = useState(false);
 
   //Methid to Access Gallery
   const pickFromGallery = async () => {
@@ -72,7 +97,7 @@ const CreateEmployee = ({ navigation }) => {
   };
 
   //Method to Submit to Server
-  const submitData = () => {
+  const submitDetails = () => {
     fetch("https://employee-app-server.herokuapp.com/api/employee/create", {
       method: "POST",
       headers: {
@@ -91,7 +116,34 @@ const CreateEmployee = ({ navigation }) => {
       .then((data) => {
         Alert.alert(`${data.name} saved`);
         navigation.navigate("Home");
-        Alert.alert("Pull screen to reload");
+        // Alert.alert("Pull screen to reload");
+      })
+      .catch((err) => {
+        Alert.alert("Somethiing went wrong");
+      });
+  };
+
+  const updateDetails = () => {
+    fetch("https://employee-app-server.herokuapp.com/api/employee/edit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: route.params._id,
+        name,
+        email,
+        phone,
+        salary,
+        picture,
+        position,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Alert.alert(`${data.name} profile Updated`);
+        navigation.navigate("Home");
+        // Alert.alert("Pull screen to reload");
       })
       .catch((err) => {
         Alert.alert("Somethiing went wrong");
@@ -120,8 +172,12 @@ const CreateEmployee = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.root}>
-      <KeyboardAvoidingView>
+    <KeyboardAvoidingView
+      behavior="position"
+      style={styles.root}
+      enabled={enableShift}
+    >
+      <View>
         <TextInput
           label="Name"
           style={styles.inputStyle}
@@ -156,6 +212,7 @@ const CreateEmployee = ({ navigation }) => {
           style={styles.inputStyle}
           value={salary}
           theme={theme}
+          // onFocus={() => setEnableShift(true)}
           keyboardType="number-pad"
           mode="outlined"
           onChangeText={(text) => setSalary(text)}
@@ -166,6 +223,7 @@ const CreateEmployee = ({ navigation }) => {
           style={styles.inputStyle}
           value={position}
           theme={theme}
+          // onFocus={() => setEnableShift(true)}
           mode="outlined"
           onChangeText={(text) => setPosition(text)}
         />
@@ -179,16 +237,27 @@ const CreateEmployee = ({ navigation }) => {
         >
           {picture == "" ? "Upload Image" : "Upload Completed"}
         </Button>
-
-        <Button
-          icon="content-save"
-          mode="contained"
-          style={styles.inputStyle}
-          onPress={() => submitData()}
-          theme={theme}
-        >
-          Save
-        </Button>
+        {route.params ? (
+          <Button
+            icon="content-save"
+            mode="contained"
+            style={styles.inputStyle}
+            onPress={() => updateDetails()}
+            theme={theme}
+          >
+            Update Employee Details
+          </Button>
+        ) : (
+          <Button
+            icon="content-save"
+            mode="contained"
+            style={styles.inputStyle}
+            onPress={() => submitDetails()}
+            theme={theme}
+          >
+            Save Employee Details
+          </Button>
+        )}
 
         <Modal
           animationType="slide"
@@ -230,8 +299,8 @@ const CreateEmployee = ({ navigation }) => {
             </Button>
           </View>
         </Modal>
-      </KeyboardAvoidingView>
-    </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
