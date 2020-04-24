@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { StyleSheet, Text, View, Image, FlatList, Alert } from "react-native";
 import { Card, FAB } from "react-native-paper";
 import { useSelector, useDispatch } from "react-redux";
+
+import { myContext } from "../App";
 
 const Home = ({ navigation }) => {
   // React hooks to set & update Data coming from Server and also load and update load state
   // const [data, setData] = useState([]);
   // const [loading, setLoading] = useState(true);
 
-  const dispatch = useDispatch();
+  // //Redux
+  // const dispatch = useDispatch();
 
-  //Accessing the Redux store to get data
-  const { data, loading } = useSelector((state) => {
-    return state;
-  });
+  // //Accessing the Redux store to get data
+  // const { data, loading } = useSelector((state) => {
+  //   return state;
+  // });
 
-  console.log("data: " + data, "Loading: " + loading);
+  //Context API
+  const { state, dispatch } = useContext(myContext);
+  const { data, loading } = state;
 
   //Refresh on screen pull
   const fetchData = () => {
