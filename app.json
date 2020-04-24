@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "employee-app",
+    "name": "employee app",
     "slug": "employee-app",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
@@ -20,7 +20,7 @@
     },
     "description": "",
     "android": {
-      "package": "employee_app",
+      "package": "asiwaju.employee",
       "versionCode": 1
     }
   }
