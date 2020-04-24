@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, FlatList, Alert } from "react-native";
 import { Card, FAB } from "react-native-paper";
-
-// import { data } from "../Data/dummyData";
+import { useSelector, useDispatch } from "react-redux";
 
 const Home = ({ navigation }) => {
   // React hooks to set & update Data coming from Server and also load and update load state
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [data, setData] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
+
+  //Accessing the Redux store to get data
+  const { data, loading } = useSelector((state) => {
+    return state;
+  });
+
+  console.log("data: " + data, "Loading: " + loading);
 
   //Refresh on screen pull
   const fetchData = () => {
     fetch("https://employee-app-server.herokuapp.com/api/employee/all")
       .then((res) => res.json())
       .then((results) => {
-        setData(results);
-        setLoading(false);
+        // setData(results);
+        // setLoading(false);
+        dispatch({ type: "ADD_DATA", payload: results });
+        dispatch({ type: "SET_LOADING", payload: false });
       })
       .catch((err) => {
         Alert.alert("Somethiing went wrong");
